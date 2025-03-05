@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import start.final_project_instagram.entities.User;
 import start.final_project_instagram.repositories.UserRepository;
+
+import java.time.Duration;
+import java.time.Instant;
 import java.time.ZonedDateTime;
 @Component
 @RequiredArgsConstructor
@@ -15,16 +18,20 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secretKey; // java16
     private final UserRepository userRepo;
+
+    // Генерация токена
     public String generateToken(User user) {
-        ZonedDateTime now = ZonedDateTime.now();
+        Instant now = Instant.now();
         return JWT.create()
                 .withClaim("id", user.getId())
                 .withClaim("email", user.getEmail())
                 .withClaim("role", user.getRole().name())
-                .withIssuedAt(now.toInstant())
-                .withExpiresAt(now.plusSeconds(100000000).toInstant())
+                .withIssuedAt(now)
+                .withExpiresAt(now.plus(Duration.ofHours(1)))  // Токен будет действителен 1 час
                 .sign(getAlgorithm());
     }
+
+    // Проверка токена
     public User verifyToken(String token) {
         Algorithm algorithm = getAlgorithm();
         JWTVerifier verifier = JWT.require(algorithm).build();
@@ -34,6 +41,8 @@ public class JwtService {
                 () -> new RuntimeException("User not found with email: " + email)
         );
     }
+
+    // Получение алгоритма подписи
     public Algorithm getAlgorithm() {
         return Algorithm.HMAC256(secretKey);
     }

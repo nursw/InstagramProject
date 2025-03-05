@@ -43,5 +43,8 @@ public class JwtFiler extends OncePerRequestFilter {
                 return;
             }
         }
+
+        // Важно вызвать filterChain.doFilter для продолжения обработки запроса
+        filterChain.doFilter(request, response);
     }
 }
