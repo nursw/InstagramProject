@@ -16,35 +16,35 @@ public class PostApi {
     private final PostService postService;
 
     // Create a new post
-    @PostMapping
+    @PostMapping("create-post")
     public ResponseEntity<PostResponse> createPost(@RequestBody PostRequest postRequest) {
         PostResponse postResponse = postService.createPost(postRequest);
         return new ResponseEntity<>(postResponse, HttpStatus.CREATED);
     }
 
     // Get a post by its ID
-    @GetMapping("/{postId}")
+    @GetMapping("/{get-post-byid}")
     public ResponseEntity<PostResponse> getPostById(@PathVariable Long postId) {
         PostResponse postResponse = postService.getPostById(postId);
         return ResponseEntity.ok(postResponse);
     }
 
     // Update an existing post
-    @PutMapping("/{postId}")
+    @PutMapping("/{update-by-id}")
     public ResponseEntity<PostResponse> updatePost(@PathVariable Long postId, @RequestBody PostRequest postRequest) {
         PostResponse postResponse = postService.updatePost(postId, postRequest);
         return ResponseEntity.ok(postResponse);
     }
 
     // Delete a post
-    @DeleteMapping("/{postId}")
+    @DeleteMapping("/{delete-post}")
     public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
         postService.deletePost(postId);
         return ResponseEntity.noContent().build();
     }
 
     // Get all posts
-    @GetMapping
+    @GetMapping("/get-all-post")
     public ResponseEntity<List<PostResponse>> getAllPosts() {
         List<PostResponse> posts = postService.getAllPosts();
         return ResponseEntity.ok(posts);

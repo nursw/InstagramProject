@@ -11,7 +11,6 @@ import start.final_project_instagram.repositories.UserRepository;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.ZonedDateTime;
 @Component
 @RequiredArgsConstructor
 public class JwtService {
@@ -19,7 +18,6 @@ public class JwtService {
     private String secretKey; // java16
     private final UserRepository userRepo;
 
-    // Генерация токена
     public String generateToken(User user) {
         Instant now = Instant.now();
         return JWT.create()
@@ -27,11 +25,10 @@ public class JwtService {
                 .withClaim("email", user.getEmail())
                 .withClaim("role", user.getRole().name())
                 .withIssuedAt(now)
-                .withExpiresAt(now.plus(Duration.ofHours(1)))  // Токен будет действителен 1 час
+                .withExpiresAt(now.plus(Duration.ofHours(1)))
                 .sign(getAlgorithm());
     }
 
-    // Проверка токена
     public User verifyToken(String token) {
         Algorithm algorithm = getAlgorithm();
         JWTVerifier verifier = JWT.require(algorithm).build();
@@ -42,7 +39,6 @@ public class JwtService {
         );
     }
 
-    // Получение алгоритма подписи
     public Algorithm getAlgorithm() {
         return Algorithm.HMAC256(secretKey);
     }

@@ -2,6 +2,9 @@ package start.final_project_instagram.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.xml.sax.ext.LexicalHandler;
+
+@Builder
 @Entity
 @Getter
 @Setter
@@ -14,7 +17,7 @@ public class Like {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "like_gen")
     @SequenceGenerator(sequenceName = "like_seq", name = "like_gen")
     Long id;
-    boolean isLike;
+    boolean liked;
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;

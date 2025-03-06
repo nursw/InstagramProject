@@ -1,9 +1,12 @@
 package start.final_project_instagram.entities;
+
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import start.final_project_instagram.enums.Role;
+
 import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -32,4 +35,13 @@ public class User {
     List<Comment> comments;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Like> likes;
+    @ManyToMany
+    @JoinTable(
+            name = "user_followers",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "follower_id")
+    )
+    private List<User> followers;
+    @ManyToMany(mappedBy = "followers")
+    private List<User> following;
 }

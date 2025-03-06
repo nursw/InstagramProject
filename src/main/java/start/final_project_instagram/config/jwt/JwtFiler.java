@@ -44,7 +44,6 @@ public class JwtFiler extends OncePerRequestFilter {
             }
         }
 
-        // Важно вызвать filterChain.doFilter для продолжения обработки запроса
         filterChain.doFilter(request, response);
     }
 }

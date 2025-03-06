@@ -12,7 +12,7 @@ import java.util.Collections;
 public class Swagger {
 
     @Configuration
-    @EnableOpenApi  // Эта аннотация необходима для Spring
+    @EnableOpenApi
     public class SwaggerConfig {
         private final String API_KEY = "Bearer Token";
 

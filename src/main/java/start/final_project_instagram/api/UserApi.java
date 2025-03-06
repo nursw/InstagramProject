@@ -30,16 +30,15 @@ public class UserApi {
     }
 
     // Get user profile
-    @GetMapping("/profile")
+    @GetMapping("/get-user/profile")
     public ResponseEntity<UserResponse> getUserProfile(Authentication authentication) {
-        // Assuming the user ID is part of the authentication details (e.g., JWT token)
-        Long userId = Long.parseLong(authentication.name());  // Adjust this based on your auth system
+        Long userId = Long.parseLong(authentication.name());
         UserResponse userResponse = userService.getUserProfile(userId);
         return ResponseEntity.ok(userResponse);
     }
 
     // Create a new user (Admin/Other roles)
-    @PostMapping
+    @PostMapping("/create-new-user")
     public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
         UserResponse userResponse = userService.createUser(userRequest);
         return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
@@ -67,7 +66,7 @@ public class UserApi {
     }
 
     // Get all users (Admin)
-    @GetMapping
+    @GetMapping("get-all-users")
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         List<UserResponse> userResponses = userService.getAllUsers();
         return ResponseEntity.ok(userResponses);
